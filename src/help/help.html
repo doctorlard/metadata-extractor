@@ -1,0 +1,439 @@
+<html>
+<head>
+<link rel=Edit-Time-Data href="./help_files/editdata.mso">
+<link rel=OLE-Object-Data href="./help_files/oledata.mso">
+<title> Metadata Extraction Tool</title>
+<style><!--
+.MsoBodyText
+	{font-size:32.0pt;
+	font-family:"Times New Roman";
+	font-weight:bold;
+	font-style:italic;}
+.b1
+	{color:red;
+	font-weight:bold;
+	text-decoration:none;
+	text-underline:none;}
+.m1
+	{color:blue;}
+.t1
+	{color:#990000;}
+.tx1
+	{font-weight:bold;}
+.pi1
+	{color:blue;}
+.b
+	{font-size:12.0pt;
+	font-family:"Courier New";
+	color:red;
+	font-weight:bold;}
+.t
+	{font-size:12.0pt;
+	font-family:"Arial Unicode MS";
+	color:#990000;}
+.m
+	{font-size:12.0pt;
+	font-family:"Arial Unicode MS";
+	color:blue;}
+.tx
+	{font-size:12.0pt;
+	font-family:"Arial Unicode MS";
+	font-weight:bold;}
+.pi
+	{font-size:12.0pt;
+	font-family:"Arial Unicode MS";
+	color:blue;}
+.ci
+	{font-size:12.0pt;
+	font-family:Courier;
+	color:#888888;}
+.c
+	{}
+.ci1
+	{color:#888888;}
+.Section1
+	{page:Section1;}
+-->
+</style>
+</head>
+<body bgcolor="#FFFFFF" link=blue vlink=purple class="Normal">
+<div class=Section1> 
+  <p class=MsoBodyText> <img width=71 height=115
+src="./help_files/image002.jpg" align=left hspace=12 v:shapes="_x0000_s1026"> 
+  <h1><span>Metadata Extraction Tool User Guide<br>
+    Version 2.0</span></h1>
+  </p>
+  <br>
+  <br>
+  <br>
+  <br>
+  <h1><span>What is the Metadata Extraction Tool</span></h1>
+  <p><span>The metadata extraction tool is a tool built by Sytec Resources for 
+    the National Library of New Zealand to process digital master files and extract 
+    metadata about those files.  Metadata is descriptive information about an 
+    object - not the object itself.  In this case metadata information about a 
+    Image would be things like size, colours, resolution, etc& There are four 
+    output formats that an output metadata file can take</span></p>
+  <p> <span>1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span> 
+    <span
+>Native form.  A XML (Extensible Mark-up Language) file based on a DTD (Document 
+    Type Definition) that reflects all information available from the digital 
+    master.</span></p>
+  <p> <span>2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span> 
+    <span
+>Preservation metadata.  Contains descriptive information extracted from the digital 
+    master file.  The DTD for this XML format is pmeta.dtd.</span></p>
+  <p> <span>3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span> 
+    <span
+>Descriptive metadata.  Contains information about a file that can be read from 
+    the file system. The DTD for this XML format is dmeta.dtd.</span></p>
+  <p> <span>4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span> 
+    <span
+>National Library Preservation Metadata Data Dictionary - nlnz-presmet.xsd.  This 
+    is the primary format.</span></p>
+  <p><span>For more information about any of these file formats see the Solution 
+    Architecture or Software Architecture documents for this extraction tool.  
+    Of the above formats, demta.dtd and pmeta.dtd have been deprecated, they are 
+    not fully supported for all types of input file.</span></p>
+  <h1><span>Installation</span></h1>
+  <p><span>Installation of the tool is performed by copying the folder 'deploy' 
+    from the accompanying CD to a directory of the users choice on the local file 
+    system.  Before running the application several configuration tasks must be 
+    performed:</span></p>
+  <p> <span>1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span> 
+    <span
+>The config.xml file attributes need to be made write enabled.  To do this right 
+    click on the file in windows file explorer and select properties.  In the 
+    properties file unclick the checkbox labels 'read-only'.  This will allow 
+    the user to make changes to the application configuration.</span></p>
+  <p><span>2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span> 
+    <span
+>Run the tool and add adapters and mappings as required.</span></p>
+  <p> <span></span><span>3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span> 
+    <span
+>A suitable Java Runtime Environment must be installed and configured (JDK1.3.1 
+    or later)</span></p>
+  <p><span>4.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span> 
+    <span
+>Create the directories that are specified in the config.xml file for the destination 
+    of extracted metadata files.   Defaults of c:\temp\&lt;folder&gt; are specified.</span></p>
+  <p><span>A correctly configured Java Runtime Environment will allow the user 
+    to double click on the NLNZ.jar file to execute the application.  To run the 
+    application in an environment where the Java Runtime Environment is not configured 
+    to execute jar files use the command:  <b>java</b> -jar NLNZ.jar</span></p>
+  <h1><span>Graphical User Interface</span></h1>
+  <p><span>The software will be driven by a graphical user interface and a command 
+    line interface.  Both will access the underlying extraction tool in an identical 
+    way (using the same configuration).  The graphical user interface will allow 
+    the user to select files for processing and process them according to a predefined 
+    configuration.  The predefined configurations (see: configuration) will specify 
+    the output format and the output directory that will hold the extracted files.  
+    The user interface is designed to be fully compliant with current Win32 best 
+    practice for GUIs.  One of the features of the User interface is the capability 
+    to alert the user to errors that may have occurred during the extraction process.  
+    </span></p>
+  <p><span>Key controls of the software:</span></p>
+  <p><span> <img width=38 height=30
+src="./help_files/image003.gif" v:shapes="_x0000_i1027">    <b>Create New Object</b></span></p>
+  <p><span>Allows the user to create a new object.  An object is a logical grouping 
+    of files and is the first step to creating a list of files to be harvested 
+    for metadata.</span></p>
+  <p><b><span> <img width=30 height=30
+src="./help_files/image004.gif" v:shapes="_x0000_i1028">      Add Files/Folders 
+    to Object</span></b></p>
+  <p><span>When the user pressed the 'add' button a file dialog will appear to 
+    allow the user to select as many files as they wish to process.  The files 
+    that have been selected will appear in the files list in the middle of the 
+    main screen.</span></p>
+  <p><b><span> <img width=30 height=30
+src="./help_files/image005.gif" v:shapes="_x0000_i1029">      Remove Files/Folders 
+    from Object</span></b></p>
+  <p><span>The remove button will remove all selected files from the files table.</span></p>
+  <p><b><span> <img width=30 height=30
+src="./help_files/image006.gif" v:shapes="_x0000_i1030">      Remove All Files/Folders 
+    and Objects from the list.</span></b></p>
+  <p><span>Removes all files/folders and object from the file list.</span></p>
+  <p><b><span> <img width=30 height=30
+src="./help_files/image007.gif" v:shapes="_x0000_i1031">      Edit the properties 
+    of an Object</span></b></p>
+  <p><span>The 'Object' folders (the highest level folders) have properties associated 
+    with them.  The properties editor allows the user to change these.</span></p>
+  <p><span>The dialog you will be presented with looks like the image shown here.  
+    You can edit any property of an object using this dialog.  You may notice 
+    some fields go 'red' while typing - this is because the field validation has 
+    determined that the field contents are incorrect.</span><span
+ style='font-size:10.0pt;'> </span></p>
+  <p><b><span> <img width=32 height=30
+src="./help_files/image008.gif" v:shapes="_x0000_i1032">     Process all of the 
+    Objects in the list</span></b></p>
+  <p><span>The process button will process all files currently in the files list.  
+    The results of the processing will be output to the directory specified by 
+    the currently selected Config.  Any errors will be highlighted with a red 
+    exclamation point icon appearing as the icon of the erroneous file.  Files 
+    that were processed without any errors are given a 'tick' icon and files that 
+    are yet to be processed are given plain icon.  The Graphical User Interface 
+    is multithreaded - this means that processing can take place and the UI does 
+    not appear to 'lock-up'.</span></p>
+  <p><b><span> <img width=30 height=30
+src="./help_files/image009.gif" v:shapes="_x0000_i1033">      View Usage/Error 
+    Log</span></b></p>
+  <p><span>Pops up a log window for usage and error reporting.  Logs can be filtered 
+    in this window so that only log messages with the log 'level' desired are 
+    shown.  Old logs may be viewed in this window also with the 'open' log file 
+    function.</span></p>
+  <p><b><span><img src="help_files/button_schedule.gif" width="30" height="30"> 
+         View Scheduling Window </span></b></p>
+  <p>Pops up the scheduling window to allow scheduling to be queued up to happen 
+    at a later time. If processing is scheduled the application will suspend operation 
+    until the allotted time.</p>
+  <p> <b><span><img src="help_files/button_admin.gif" width="30" height="30"> 
+         View Administration Window </span></b></p>
+  <p> Pops up the administration window. This is a series of tabs which allow 
+    the user/administrator to configure all aspects of the harvesting application. 
+    See administration below.</p>
+  <p><b><span> <img width=30 height=30
+src="./help_files/image010.gif" v:shapes="_x0000_i1034">      View simple help</span></b></p>
+  <p><span>Pops up a window that displays help, Help is not context sensitive 
+    and does not go into substantial detail.</span></p>
+  <p><b><span> <img width=30 height=30
+src="./help_files/image011.gif" v:shapes="_x0000_i1035">      Exit the Application</span></b></p>
+  <p><span>Exits the application, saving the configuration if you have changed 
+    it (users, destination directories, etc...)</span></p>
+  <p><b><span> <img width=296 height=24
+src="./help_files/image013.jpg" v:shapes="_x0000_i1036">           Extraction 
+    Configuration</span></b></p>
+  <p><span>The available configurations are listed in a drop down box labelled 
+    'Config' these configurations can each have a different output directory, 
+    which is indicated immediately to the right of the drop down box.</span></p>
+  <p><b><span> <img width=295 height=25
+src="./help_files/image015.jpg" v:shapes="_x0000_i1037">           Destination 
+    Folder</span></b></p>
+  <p><span>The destination folder that output files will be sent.  You can change 
+    this setting by clicking on the folder icon to the right of the text field.  
+    The field itself is not editable.</span></p>
+  <p><b><span> <img width=294 height=24
+src="./help_files/image017.jpg" v:shapes="_x0000_i1038">            User Selection</span></b></p>
+  <p><span>You can select the user that is currently performing the extraction 
+    of metadata.  If the output schema supports a user field, the value will be 
+    inserted into the harvested metadata.</span></p>
+  <p><span>When creating an Object or Adding files to an existing object you will 
+    be prompted with a dialog to select files or folders.  You can select any 
+    number of files or folders and add them all to the current object.  The recurse 
+    option will force the file adding process to traverse all subfolders within 
+    a selection.  The flatten option will force the adding process to ignore folder 
+    boundaries while recursing and add all the files found at an equal level within 
+    the current object.</span></p>
+  <h1><span>Administration</span></h1>
+  <p><span>The administration window is a series of tabs which allow the user/administrator 
+    to configure all aspects of the harvesting application.</span></p>
+  <p><b><span><img src="help_files/icon.gif" width="16" height="16">      General 
+    Tab</span></b></p>
+  <p>This screen allows the user to manage profiles and change settings of the 
+    currently selected profile. A profile is used to easily store some settings 
+    to be used again in the future without having to recreate everything for a 
+    future harvesting run. Configuration elements within the profile are the input 
+    directory, the log directory and which adapters are currently enabled for 
+    harvesting.</p>
+</div>
+<blockquote> 
+  <div class=Section1><strong> <img src="help_files/button_add_profile.gif" width="24" height="24"> 
+    Create Profile</strong> &#8211; Simply type the new profile name in the combo 
+    box and select Create and a new profile of that name will be created with 
+    the normal default values.</div>
+  <div class=Section1> <strong><img src="help_files/button_delete_profile.gif" width="24" height="24"> 
+    Delete Profile</strong> &#8211; Select the profile to delete and click the 
+    Delete button. It is not possible to delete the last (default) profile.</div>
+  <div class=Section1><br>
+    <strong><img src="help_files/xp_folder_small.gif" width="20" height="20"> 
+    Change Input Directory</strong> &#8211; Select the directory used as the standard 
+    directory to look for files to harvest. It is therefore the starting point 
+    of any file selection.</div>
+  <div class=Section1> <strong><img src="help_files/xp_folder_small.gif" width="20" height="20"> 
+    Change Log Directory</strong> &#8211; Select the directory used for log creation.<br>
+  </div>
+</blockquote>
+<div class=Section1> 
+  <p><b><span><img src="help_files/icon_adapters.gif" width="16" height="16"> 
+         Adapters Tab</span></b></p>
+  <p>This screen allows the user to manage which adapters are turned on for the 
+    currently selected profile. The user can simply select or deselect adapters 
+    and any future harvest will only use the currently selected set.</p>
+  <p><strong>NOTE</strong>: The default adapter cannot be deselected.</p>
+  <p><b><span><img src="help_files/icon_admin.gif" width="16" height="16">      
+    Administration Tabs</span></b></p>
+  <p>Some parts of the administration screens are password protected so can only 
+    be changed by an administrator. This is to prevent an incorrect configuration 
+    being created easily by a typical user. After selecting the admin tab a password 
+    dialog will prompt the user to enter the admin password to access the protected 
+    tabs. A user has three attempts to enter the correct password before being 
+    locked out of the tabs after the third incorrect attempt.</p>
+  <p><b><span><img src="help_files/icon_default.gif" width="16" height="16">      
+    Defaults Tab</span></b></p>
+  <p>The defaults tab allows the selection of certain defaults: </p>
+  <table width="827" border="1" cellpadding="1" cellspacing="0">
+    <tr> 
+      <td width="120"><strong>User</strong></td>
+      <td width="835">Used as the normal user of the application &#8211; ie will 
+        be selected when the application is launched</td>
+    </tr>
+    <tr> 
+      <td><strong>Input Directory</strong></td>
+      <td>The default input directory used within a profile when a profile is 
+        created</td>
+    </tr>
+    <tr> 
+      <td><strong>Log Directory</strong></td>
+      <td>The default log directory used within a profile when a profile is created</td>
+    </tr>
+  </table>
+  <p> The admin password can also be changed from this tab. The old password must 
+    be entered as well as the new password entered twice. <strong>NOTE:</strong> 
+    After clicking <br>
+    <strong><img src="help_files/icon_admin.gif" width="16" height="16"> Change 
+    Password</strong> the password is immediately changed and cancelling the administration 
+    dialog will not reverse this operation.</p>
+  <p><b><span><img src="help_files/icon_user.gif" width="18" height="18">      
+    Users Tab</span></b></p>
+  <p>The users tab allows the administrator to maintain users. Users can added 
+    or deleted from the system.</p>
+</div>
+<blockquote> 
+  <div class=Section1> <img src="help_files/add_user.gif" width="20" height="20"> 
+    <strong>Add User</strong> &#8211; Click the Add button and enter the name 
+    of the new user. All users must have unique names.</div>
+  <div class=Section1> <img src="help_files/delete_user.gif" width="20" height="20"> 
+    <strong>Delete User</strong> &#8211; Clicking the Del button will result in 
+    the currently selected user to be deleted.<br>
+  </div>
+</blockquote>
+<div class=Section1> 
+  <p><b><span><img src="help_files/icon_mapping.gif" width="16" height="16">      
+    Mappings Tab</span></b></p>
+  <p>The mappings tab allows the administrator to maintain mappings between Adapter 
+    outputs and end-result meta-data schemas. Mappings can be added or deleted 
+    from the system using this tab.</p>
+</div>
+<blockquote> 
+  <div class=Section1> 
+    <p><strong><img src="help_files/button_add_mapping.gif" width="24" height="24"> 
+      Add Mapping</strong> &#8211; Select mapping configuration elements from 
+      the three drop-down boxes and then click the <strong>Add</strong> button. 
+      Any installed adapter will have an entry in the first drop-down box. All 
+      mapping xslt files in the application XML directory will be in the second 
+      drop-down box. All configuration schemas will be populated in the third 
+      drop-down box (see <strong>Configurations</strong> below)</p>
+  </div>
+  <div class=Section1> <strong><img src="help_files/button_delete_mapping.gif" width="24" height="24"> 
+    Delete Mapping</strong> &#8211; Clicking the <strong>Delete</strong> button 
+    will result in the currently selected mapping to be deleted.<br>
+  </div>
+</blockquote>
+<div class=Section1> 
+  <p><b><span><img src="help_files/icon_config.gif" width="16" height="16">      
+    Configuration Tab</span></b></p>
+  <p>The configuration tab allows the administrator to maintain configurations. 
+    A configuration encapsulates a particular output schema type and is normally 
+    tightly bound to a certain Harvester instance. </p>
+</div>
+<blockquote> 
+  <div class=Section1> 
+    <p><strong><img src="help_files/button_add_config.gif" width="24" height="24"> 
+      Add Configuration</strong> &#8211; Click <strong>Add</strong> and enter 
+      the name, harvester class, and output directory for the new configuration.</p>
+  </div>
+  <div class=Section1> <strong><img src="help_files/button_del_config.gif" width="24" height="24"> 
+    Delete Configuration</strong> &#8211; Clicking the <strong>Delete</strong> 
+    button will result in the currently selected configuration to be deleted.<br>
+  </div>
+</blockquote>
+<div class=Section1> 
+  <p><b><span><img src="help_files/icon_adapter.gif" width="16" height="16">      
+    Adapter MaintenanceTab</span></b></p>
+  <p>The adapter maintenance tab allows the administrator to install new adapters 
+    and remove old adapters. </p>
+</div>
+<blockquote>
+  <div class=Section1> 
+    <p><strong><img src="help_files/button_add_adapter.gif" width="24" height="24"> 
+      Add Adapter</strong> &#8211; Click <strong>Add</strong> and select the jar 
+      file that contains the adapter and other associated files (xml schemas and 
+      xslt mappings, etc). After clicking install the operation immediately happens 
+      and the adapter is now reflected in all other admin screens (adapters, mappings, 
+      etc). NOTE: Choosing cancel from the admin screen itself will not result 
+      in the adapter not being installed!</p>
+  </div>
+  <div class=Section1> <strong><img src="help_files/button_delete_adapter.gif" width="24" height="24"> 
+    Delete Adapter</strong> &#8211; Clicking the <strong>Delete</strong> button 
+    will result in the currently selected adapter to be uninstalled from the system. 
+    A backup of the original jar installation file will still be found in the 
+    system jar directory.<br>
+  </div>
+</blockquote>
+<div class=Section1>
+<h1><span>Logging</span></h1>
+  <p><span>The logging window displays the current log.  You can elect to clear 
+    the current log and start it fresh, or filter the current log to only show 
+    a certain level of logging.</span></p>
+  <p><b><span> <img width=15 height=15
+src="./help_files/image018.gif" alt="*" v:shapes="_x0000_i1039"> Critical.</span></b></p>
+  <p><span>            The application has had a critical failure, harvesting 
+    could not be considered unstable and the application should be restarted. 
+    </span></p>
+  <p><b><span> <img width=15 height=15
+src="./help_files/image018.gif" v:shapes="_x0000_i1040"> Error.</span></b></p>
+  <p><span>            An error is an application problem or an problem while 
+    harvesting metadata that is isolated to the object being harvested.  Chances 
+    are other objects were unaffected and harvesting can continue.</span></p>
+  <p><b><span> <img width=15 height=15
+src="./help_files/image019.gif" alt="*" v:shapes="_x0000_i1041"> Debug messages</span></b></p>
+  <p><span>            Information about program behaviour, there should be very 
+    little of these messages in the production system.</span></p>
+  <p><b><span> <img width=15 height=15
+src="./help_files/image019.gif" alt="*" v:shapes="_x0000_i1042"> Information message</span></b></p>
+  <p><span>            Superfluous information about application behaviour.  This 
+    includes things like usage reporting.</span></p>
+  <p><b><span> <img width=15 height=15
+src="./help_files/image020.gif" alt="*" v:shapes="_x0000_i1043"> Program Workings</span></b></p>
+  <p><span>            Similar to debug, these messages are closely related to 
+    system functions - they may not be very meaningful to most operators, there 
+    should be very little of these messages in the production system.</span></p>
+  <h1><span>Help</span></h1>
+  <p><span>Help is very simple.  It is sufficient for basic usage but is neither 
+    comprehensive or context sensitive.<b> </b></span></p>
+  <b><i><br clear=all style='page-break-before:always'>
+  </i></b> 
+  <h1><span>Command Line</span></h1>
+  <p><span>The command line interface is able to operate in several modes:</span></p>
+  <p> <span>1.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span> 
+    <span
+>Help:  The help mode produces a screen of information describing the modes and 
+    parameters that are available.</span></p>
+  <p> <span>2.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span> 
+    <span
+>Self-discovery:  Self-discovery can produce a screen that can inform the user 
+    about the configurations installed in the extraction tool as well as information 
+    on available xslt maps and the types of adapters installed.</span></p>
+  <p> <span>3.<span
+style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span> 
+    <span
+>Extraction:  Extraction is the mode that actually causes the tool to parse files 
+    and output results.  You must tell the extraction tool which configuration 
+    to use (by name, use quotes for names with spaces) and the directory to find 
+    the digital master files to be processed.</span></p>
+  <p><span>The command line interface is not multithreaded.</span></p>
+  <h1><span>Configuration</span></h1>
+  <p>See the Software Architecture for details on configuration and the editing 
+    of the congig.xml file</p>
+</div>
+</body>
+</html>

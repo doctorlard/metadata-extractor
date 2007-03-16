@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/bfj220.jar"/>
+	<classpathentry kind="lib" path="lib/metadata.jar"/>
+	<classpathentry kind="lib" path="lib/poi-2.5.1-final-20040804.jar"/>
+	<classpathentry kind="lib" path="lib/serializer.jar"/>
+	<classpathentry kind="lib" path="lib/xalan.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
+	<classpathentry kind="output" path="target/metadata"/>
+</classpath>
