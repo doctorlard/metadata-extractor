@@ -8,10 +8,10 @@ REM To set the METAHOME directly, set it in the variable below.
 SET METAHOME=
 
 REM Check whether the METAHOME variable is set.
-IF METAHOME == "" GOTO HOMESET
+IF NOT "%METAHOME%" == "" GOTO HOMESET
 
 REM Guess the METAHOME directory.
-set METAHOME=%~dp0
+set METAHOME=%~dsp0
 
 REM METAHOME is set, so we can start the tool.
 
