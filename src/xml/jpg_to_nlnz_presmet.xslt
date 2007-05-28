@@ -3,7 +3,7 @@
   <xsl:strip-space elements="doc chapter section"/>
   <xsl:output omit-xml-declaration="yes" indent="yes" encoding="iso-8859-1" version="1.0"/>
   <xsl:template match="/">
-    <File xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="file://c:\Projects\NationalLibrary\src\XML\nlnz_file.xsd">
+    <File>
       <FileIdentifier>
         <xsl:value-of select="nz_govt_natlib_xsl_XSLTFunctions:determineFileIdentifier(string(JPG/METADATA/PID),string(JPG/METADATA/OID),string(JPG/METADATA/FILENAME),string(JPG/METADATA/FID))"/>
       </FileIdentifier>
