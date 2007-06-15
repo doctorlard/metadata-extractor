@@ -15,4 +15,4 @@ if [ ! -f "$METAHOME/config.xml" ] ; then
 fi
 
 # Start the tool.
-$JAVA_HOME/bin/java -cp ./lib/metadata.jar:./lib/xalan.jar:./lib/xercesImpl.jar:./lib/xml-apis.jar:./lib/serializer.jar:./lib/poi-2.5.1-final-20040804.jar:./lib/bfj220.jar:. nz.govt.natlib.meta.ui.CmdLine $*
+$JAVA_HOME/bin/java -Xmx128m -Dmetahome=$METAHOME -Djava.system.class.loader=nz.govt.natlib.meta.config.Loader -cp $METAHOME/lib/metadata.jar:$METAHOME/lib/xalan.jar:$METAHOME/lib/xercesImpl.jar:$METAHOME/lib/xml-apis.jar:$METAHOME/lib/serializer.jar:$METAHOME/lib/poi-2.5.1-final-20040804.jar:$METAHOME/lib/bfj220.jar:$METAHOME/lib/PDFBox-0.7.3.jar:$METAHOME/lib/bcprov-jdk14-132.jar:$METAHOME/lib/bcmail-jdk14-132.jar:$METAHOME nz.govt.natlib.meta.ui.CmdLine $*
