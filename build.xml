@@ -9,7 +9,7 @@
 	<property name="xml" value="src/XML" />
 	<property name="javadoc" value="false"/>
 	
-	<property name="version" value="3-0"/>
+	<property name="version" value="3-1"/>
 	
 	
 	<description>
@@ -119,6 +119,13 @@
 			<param name="prm-adapter-type" value="pdf" />
 			<param name="prm-adapter-name" value="pdf" />
 			<param name="prm-adapter-dir" value="pdf_adapter_1_0" />
+		</antcall>
+		
+		<!-- prepare the files for the pdfbox adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="pdfbox" />
+			<param name="prm-adapter-name" value="pdfbox" />
+			<param name="prm-adapter-dir" value="pdfbox_adapter_1_0" />
 		</antcall>
 
 		<!-- prepare the files for the powerpoint adapter -->
@@ -246,30 +253,30 @@
 						
 		<delete file="meta-extractor-bin-${version}.zip"/>
 		<zip destfile="meta-extractor-bin-${version}.zip">
-		    <fileset dir="dist" includes="**/*"/>
+		    <zipfileset dir="dist" includes="**/*" prefix="metadata-extractor"/>
 		</zip>
 		
 		<delete file="meta-extractor-src-${version}.zip"/>
 		<zip destfile="meta-extractor-src-${version}.zip">
-		    <fileset dir=".">
+		    <zipfileset dir="." prefix="metadata-extractor">
 		        <exclude name="dist/**/*"/>
 		        <exclude name="target/**/*"/>
 		        <exclude name="meta-extractor-src*"/>
 		        <exclude name="meta-extractor-bin*"/>
-		    </fileset>
+		    </zipfileset>
 		</zip>
 		
 		<delete file="meta-extractor-bin-${version}.tar.gz"/>
 		<tar destfile="meta-extractor-bin-${version}.tar">
-		    <tarfileset dir="dist" includes="**/*" excludes="**/*.sh"/>
-		    <tarfileset dir="dist" includes="**/*.sh" mode="755"/>
+		    <tarfileset dir="dist" includes="**/*" excludes="**/*.sh" prefix="metadata-extractor"/>
+		    <tarfileset dir="dist" includes="**/*.sh" mode="755" prefix="metadata-extractor"/>
 		</tar>
 		<gzip src="meta-extractor-bin-${version}.tar" destfile="meta-extractor-bin-${version}.tar.gz"/>
 		<delete file="meta-extractor-bin-${version}.tar"/>
 
 		<delete file="meta-extractor-src-${version}.tar.gz"/>
 		<tar destfile="meta-extractor-src-${version}.tar">
-		    <tarfileset dir=".">
+		    <tarfileset dir="."  prefix="metadata-extractor">
 		        <exclude name="dist/**/*"/>
 		        <exclude name="target/**/*"/>
 		        <exclude name="metadata-src*"/>
@@ -278,7 +285,7 @@
 		        <exclude name="meta-extractor-src*"/>
 		        <exclude name="meta-extractor-bin*"/>
 		    </tarfileset>
-		    <tarfileset dir="." includes="src/scripts/*.sh" mode="755"/>
+		    <tarfileset dir="." includes="src/scripts/*.sh" mode="755"  prefix="metadata-extractor"/>
 		</tar>
 		<gzip src="meta-extractor-src-${version}.tar" destfile="meta-extractor-src-${version}.tar.gz"/>
 		<delete file="meta-extractor-src-${version}.tar"/>
