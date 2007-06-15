@@ -213,9 +213,11 @@ public class HarvestProcess implements Runnable, ProgressStopListener,
 					harvester = (Harvester) Class.forName(harvesterClass)
 							.newInstance();
 					// go to it...
+					System.out.println("Harvesting " + object);
 					harvester.harvest(config, object, new PropsManager(object,
 							mainFrame), this);
-				} catch (Exception ex) {
+				} catch (Throwable ex) {
+					System.out.println("Exception Harvesting " + object);
 					LogMessage msg = new LogMessage(LogMessage.ERROR, ex, ex
 							.getMessage(), "");
 					LogManager.getInstance().logMessage(msg);
