@@ -35,6 +35,8 @@ import nz.govt.natlib.meta.PropertySource;
 import nz.govt.natlib.meta.TransformProcessor;
 import nz.govt.natlib.meta.config.Config;
 import nz.govt.natlib.meta.config.Configuration;
+import nz.govt.natlib.meta.log.LogManager;
+import nz.govt.natlib.meta.log.LogMessage;
 import nz.govt.natlib.xsl.XSLTFunctions;
 
 /**
@@ -123,7 +125,9 @@ public class SimpleObjectHarvester extends DefaultHarvester {
 		handler.addListener(listener);
 
 		// Adapt the file.
+		LogManager.getInstance().logMessage(LogMessage.WORTHLESS_CHATTER, "Starting Adapter");
 		adapter.adapt(file, handler);
+		LogManager.getInstance().logMessage(LogMessage.WORTHLESS_CHATTER, "Finished adapting");
 
 		// Get the transformer that is configured to map from the native format
 		// to the "nlnz_presmet.xsd" format. Note that because the
@@ -134,10 +138,12 @@ public class SimpleObjectHarvester extends DefaultHarvester {
 		// Different Harvester implementations may use the transformer mapping
 		// to create complete XML documents; it's up to the Harvester what it
 		// expects the transformation to achieve.
+		LogManager.getInstance().logMessage(LogMessage.WORTHLESS_CHATTER, "Starting Transformation");
 		TransformProcessor transformer = TransformProcessor.getInstance(adapter
 				.getOutputType(), getOutputType());
 		
 		// Transform the document into the target format.
+		LogManager.getInstance().logMessage(LogMessage.WORTHLESS_CHATTER, "Finished Transformation");
 		transformer.transform(new ByteArrayInputStream(bout.toByteArray()),
 				byteOut);
 		bout.close();
