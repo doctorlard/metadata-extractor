@@ -177,6 +177,23 @@ public abstract class DataAdapter {
 		out.fireEndParseEvent("METADATA");
 	}
 
+	
+	
+	public static String toHexFilter(String asciiString) { 
+		StringBuffer buff = new StringBuffer();
+		
+		char[] chars = asciiString.toCharArray();
+		for(int i=0;i<chars.length;i++) { 
+			buff.append(Integer.toHexString((int) chars[i]));
+			if(i < (chars.length-1)) { 
+				buff.append(" ");
+			}
+		}
+		
+		return buff.toString();
+	}
+	
+	
 	/**
 	 * Helper method for testing a file header. This method can be used as part
 	 * of the acceptsFile(File) method.
