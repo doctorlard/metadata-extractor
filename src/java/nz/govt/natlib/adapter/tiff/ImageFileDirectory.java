@@ -142,7 +142,11 @@ public class ImageFileDirectory extends Element {
 				} else {
 					imgLen = new Object[] { result };
 				}
+				
+				// We don't want this in the output either.
+				continue;
 			}
+			
 
 			// render the results...
 			ctx.fireStartParseEvent("element");
