@@ -87,7 +87,7 @@ public class HelpWindow extends JFrame {
 			}
 		});
 		jPanel1.setLayout(flowLayout1);
-		jEditorPane1.setBackground(Color.lightGray);
+		jEditorPane1.setBackground(Color.WHITE);
 		flowLayout1.setAlignment(FlowLayout.RIGHT);
 		jPanel2.setLayout(borderLayout2);
 		borderLayout2.setHgap(5);
