@@ -9,7 +9,7 @@
 	<property name="xml" value="src/XML" />
 	<property name="javadoc" value="false"/>
 	
-	<property name="version" value="3-1GA"/>
+	<property name="version" value="3-2GA"/>
 	
 	
 	<description>
