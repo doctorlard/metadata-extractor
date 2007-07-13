@@ -18,6 +18,7 @@ package nz.govt.natlib.meta.config;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.text.DateFormat;
@@ -42,8 +43,6 @@ import nz.govt.natlib.AdapterFactory;
 import nz.govt.natlib.FileUtil;
 import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.fx.FXUtil;
-//import nz.govt.natlib.meta.crypt.BlowfishEasy;
-import blowfishj.BlowfishEasy;
 import nz.govt.natlib.meta.log.LogManager;
 import nz.govt.natlib.meta.log.LogMessage;
 
@@ -52,6 +51,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import blowfishj.BlowfishEasy;
 
 /**
  * @author Nic Evans
@@ -550,15 +551,18 @@ public class Config {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 
 			// find the file...
-			URL configURL = ClassLoader.getSystemResource("config.xml");
-			File configFile = null;
-			if (configURL != null) {
-				configFile = new File(configURL.getPath());
-			} else {
-				throw new RuntimeException("Config file not found - make sure it is in the classpath");
+			InputStream cfgFile = null;
+			try {
+				cfgFile = ClassLoader.getSystemResourceAsStream("config.xml");
+				configDoc = builder.parse(cfgFile);
 			}
-
-			configDoc = builder.parse(configFile);
+			catch(Throwable t) { 
+				throw new RuntimeException("Config file not found - make sure it is in the classpath", t);				
+			}
+			finally {
+				cfgFile.close();
+			}
+			//configDoc = builder.parse(configFile);
 
 			// find the <meta-config> tag
 			Node metaConfig = null;
