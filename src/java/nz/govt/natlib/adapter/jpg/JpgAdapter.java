@@ -117,7 +117,7 @@ public class JpgAdapter extends DataAdapter {
 	}
 
 	public String getInputType() {
-		return "image/jpg";
+		return "image/jpeg";
 	}
 
 	public String getName() {
