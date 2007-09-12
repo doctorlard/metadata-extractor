@@ -19,6 +19,7 @@ package nz.govt.natlib.adapter.wav;
 import java.io.File;
 import java.io.IOException;
 
+import nz.govt.natlib.adapter.AdapterUtils;
 import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.fx.CompoundElement;
 import nz.govt.natlib.fx.ConstantElement;
@@ -135,91 +136,98 @@ public class WaveAdapter extends DataAdapter {
 
 	public void adapt(File file, ParserContext ctx) throws IOException {
 		// add the MetaData to the tree!
-		DataSource ftk = new FileDataSource(file);
-		ctx.fireStartParseEvent("WAV");
-		writeFileInfo(file, ctx);
-
-		ctx.fireStartParseEvent("RIFF");
-
-		// move 4 bytes in (for the RIFF tag)
-		ftk.setPosition(4);
-		riffElement.read(ftk, ctx);
-
-		ctx.fireEndParseEvent("RIFF");
-
-		// 1. is there a chunk to be read...
-		long chunkSize = 12;
-		long riffHeaderLength = ctx.getIntAttribute("WAV.RIFF.length");
-		while (chunkSize < riffHeaderLength) {
-			// 2. read the chunk...
-			// get the file position...
-			long startPos = ftk.getPosition();
-			long reportedLength = 0;
-			// read the type;
-			String st = FXUtil.getFixedStringValue(ftk, 4);
-
-			// 3. process the chunk...
-			Element parser = null;
-			// get data for the type of block it is...
-			if ("fmt ".equals(st)) {
-				ctx.fireStartParseEvent("Wave");
-				ctx.fireParseEvent("type", st);
-				wavElement.read(ftk, ctx);
-				ctx.fireEndParseEvent("Wave");
-				reportedLength = ctx.getIntAttribute("WAV.Wave.length");
-				// break; // only want the first format tag...
-			} else if ("data".equals(st)) {
-				ctx.fireStartParseEvent("data");
-				ctx.fireParseEvent("type", st);
-				genericElement.read(ftk, ctx);
-				ctx.fireEndParseEvent("data");
-				reportedLength = ctx.getIntAttribute("WAV.data.length");
-			} else if ("bext".equals(st)) {
-				// System.out.println("Broadcast Wave Format extension chunk
-				// found");
-				ctx.fireStartParseEvent("bext");
-				ctx.fireParseEvent("type", st);
-				bextElement.read(ftk, ctx);
-				ctx.fireEndParseEvent("bext");
-				reportedLength = ctx.getIntAttribute("WAV.bext.length");
-
-				// debug the bext
-				// System.out.println("BEXT ->");
-				// for (int i=0;i<bextNames.length;i++) {
-				// System.out.println(bextNames[i]+"="+ctx.getAttribute("WAV.bext."+bextNames[i]));
-				// }
-			} else {
-				// System.out.println("Unknown RIFF chunk :"+st);
-				ctx.fireStartParseEvent("unknown");
-				ctx.fireParseEvent("type", st);
-				genericElement.read(ftk, ctx);
-				ctx.fireEndParseEvent("unknown");
-				reportedLength = ctx.getIntAttribute("WAV.unknown.length");
+		DataSource ftk = null;
+		
+		try {
+			ftk = new FileDataSource(file);
+			
+			ctx.fireStartParseEvent("WAV");
+			writeFileInfo(file, ctx);
+	
+			ctx.fireStartParseEvent("RIFF");
+	
+			// move 4 bytes in (for the RIFF tag)
+			ftk.setPosition(4);
+			riffElement.read(ftk, ctx);
+	
+			ctx.fireEndParseEvent("RIFF");
+	
+			// 1. is there a chunk to be read...
+			long chunkSize = 12;
+			long riffHeaderLength = ctx.getIntAttribute("WAV.RIFF.length");
+			while (chunkSize < riffHeaderLength) {
+				// 2. read the chunk...
+				// get the file position...
+				long startPos = ftk.getPosition();
+				long reportedLength = 0;
+				// read the type;
+				String st = FXUtil.getFixedStringValue(ftk, 4);
+	
+				// 3. process the chunk...
+				Element parser = null;
+				// get data for the type of block it is...
+				if ("fmt ".equals(st)) {
+					ctx.fireStartParseEvent("Wave");
+					ctx.fireParseEvent("type", st);
+					wavElement.read(ftk, ctx);
+					ctx.fireEndParseEvent("Wave");
+					reportedLength = ctx.getIntAttribute("WAV.Wave.length");
+					// break; // only want the first format tag...
+				} else if ("data".equals(st)) {
+					ctx.fireStartParseEvent("data");
+					ctx.fireParseEvent("type", st);
+					genericElement.read(ftk, ctx);
+					ctx.fireEndParseEvent("data");
+					reportedLength = ctx.getIntAttribute("WAV.data.length");
+				} else if ("bext".equals(st)) {
+					// System.out.println("Broadcast Wave Format extension chunk
+					// found");
+					ctx.fireStartParseEvent("bext");
+					ctx.fireParseEvent("type", st);
+					bextElement.read(ftk, ctx);
+					ctx.fireEndParseEvent("bext");
+					reportedLength = ctx.getIntAttribute("WAV.bext.length");
+	
+					// debug the bext
+					// System.out.println("BEXT ->");
+					// for (int i=0;i<bextNames.length;i++) {
+					// System.out.println(bextNames[i]+"="+ctx.getAttribute("WAV.bext."+bextNames[i]));
+					// }
+				} else {
+					// System.out.println("Unknown RIFF chunk :"+st);
+					ctx.fireStartParseEvent("unknown");
+					ctx.fireParseEvent("type", st);
+					genericElement.read(ftk, ctx);
+					ctx.fireEndParseEvent("unknown");
+					reportedLength = ctx.getIntAttribute("WAV.unknown.length");
+				}
+	
+				// work out if there is any padding at the end of the chunk
+				long endPos = ftk.getPosition();
+				long moveTo = startPos + reportedLength + 8; // the 8's 'cause
+				// there's a 2 word
+				// format/length
+				// added to the
+				// chunk at the
+				// start
+	
+				// repositioning
+				// System.out.println("Repo :");
+				// System.out.println(" Reported Length :"+reportedLength);
+				// System.out.println(" End :"+endPos);
+				// System.out.println(" Start :"+startPos);
+				// System.out.println(" Move Formula :"+moveTo);
+	
+				// 4. move the file pointer to the next chunk...
+				ftk.setPosition(moveTo);
+				// 5. loop...
+				chunkSize += (reportedLength + 8);
 			}
-
-			// work out if there is any padding at the end of the chunk
-			long endPos = ftk.getPosition();
-			long moveTo = startPos + reportedLength + 8; // the 8's 'cause
-			// there's a 2 word
-			// format/length
-			// added to the
-			// chunk at the
-			// start
-
-			// repositioning
-			// System.out.println("Repo :");
-			// System.out.println(" Reported Length :"+reportedLength);
-			// System.out.println(" End :"+endPos);
-			// System.out.println(" Start :"+startPos);
-			// System.out.println(" Move Formula :"+moveTo);
-
-			// 4. move the file pointer to the next chunk...
-			ftk.setPosition(moveTo);
-			// 5. loop...
-			chunkSize += (reportedLength + 8);
+			ctx.fireEndParseEvent("WAV");
 		}
-		ctx.fireEndParseEvent("WAV");
-		ftk.close();
+		finally {
+			AdapterUtils.close(ftk);
+		}
 	}
 
 	private static String getTime(long ms) {

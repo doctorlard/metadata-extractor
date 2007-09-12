@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
+import nz.govt.natlib.adapter.AdapterUtils;
 import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.adapter.word.OLE.OLEConstants;
 import nz.govt.natlib.fx.DataSource;
@@ -87,6 +88,7 @@ public class PowerPointAdapter extends DataAdapter {
 		writeFileInfo(file, ctx);
 		ctx.fireParseEvent("Version", "MSPowerPoint");
 		POIFSFileSystem fs = null;
+		FileInputStream fin = null;
 		try {
 			// fs = new POIFSFileSystem(new FileInputStream(file));
 			// DirectoryEntry root = fs.getRoot();
@@ -102,12 +104,13 @@ public class PowerPointAdapter extends DataAdapter {
 			r.registerListener(new DocumentSummaryReader(),
 					"\005DocumentSummaryInformation");
 			// r.registerListener(new TableStreamReader(ctx), "1Table");
-			FileInputStream fin = new FileInputStream(file);
+			fin = new FileInputStream(file);
 			r.read(fin);
 			fin.close();
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		} finally {
+			AdapterUtils.close(fin);
 			fs = null;
 		}
 		ctx.fireEndParseEvent("MSPowerPoint");

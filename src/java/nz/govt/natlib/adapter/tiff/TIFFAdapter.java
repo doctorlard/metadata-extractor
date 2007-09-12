@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import nz.govt.natlib.adapter.AdapterUtils;
 import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.fx.DataSource;
 import nz.govt.natlib.fx.Element;
@@ -72,41 +73,47 @@ public class TIFFAdapter extends DataAdapter {
 	public void adapt(File file, ParserContext ctx) throws IOException {
 		HashMap results = new HashMap();
 		// add the MetaData to the tree!
-		DataSource ftk = new FileDataSource(file);
-		ctx.fireStartParseEvent("tiff");
-		writeFileInfo(file, ctx);
-
-		// work out the endian...
-		long endianIndicator = FXUtil.getNumericalValue(ftk,
-				IntegerElement.SHORT_SIZE, false);
-		boolean bigEndian = endianIndicator == 0x4D4D;
-		long version = FXUtil.getNumericalValue(ftk, IntegerElement.SHORT_SIZE,
-				bigEndian);
-
-		ctx.fireStartParseEvent("Header");
-		ctx.fireParseEvent("LittleEndian", !bigEndian);
-		ctx.fireParseEvent("Version", "1.0");
-		ctx.fireEndParseEvent("Header");
-
-		// read the position of the first IFD record...
-		long next = FXUtil.getNumericalValue(ftk, IntegerElement.INT_SIZE,
-				bigEndian);
-
-		// READ THE IFD DIRECTORIES
-		while (next != 0x00) {
-			ftk.setPosition(next);
-			Element tiffIFDRecord = new ImageFileDirectory(bigEndian);
-			ctx.fireStartParseEvent("ImageFileDirectory");
-			tiffIFDRecord.read(ftk, ctx);
-			ctx.fireEndParseEvent("ImageFileDirectory");
-
-			// read where the next record is.
-			next = FXUtil.getNumericalValue(ftk, IntegerElement.INT_SIZE,
+		DataSource ftk = null;
+		
+		try {
+			ftk = new FileDataSource(file);
+			ctx.fireStartParseEvent("tiff");
+			writeFileInfo(file, ctx);
+	
+			// work out the endian...
+			long endianIndicator = FXUtil.getNumericalValue(ftk,
+					IntegerElement.SHORT_SIZE, false);
+			boolean bigEndian = endianIndicator == 0x4D4D;
+			long version = FXUtil.getNumericalValue(ftk, IntegerElement.SHORT_SIZE,
 					bigEndian);
+	
+			ctx.fireStartParseEvent("Header");
+			ctx.fireParseEvent("LittleEndian", !bigEndian);
+			ctx.fireParseEvent("Version", "1.0");
+			ctx.fireEndParseEvent("Header");
+	
+			// read the position of the first IFD record...
+			long next = FXUtil.getNumericalValue(ftk, IntegerElement.INT_SIZE,
+					bigEndian);
+	
+			// READ THE IFD DIRECTORIES
+			while (next != 0x00) {
+				ftk.setPosition(next);
+				Element tiffIFDRecord = new ImageFileDirectory(bigEndian);
+				ctx.fireStartParseEvent("ImageFileDirectory");
+				tiffIFDRecord.read(ftk, ctx);
+				ctx.fireEndParseEvent("ImageFileDirectory");
+	
+				// read where the next record is.
+				next = FXUtil.getNumericalValue(ftk, IntegerElement.INT_SIZE,
+						bigEndian);
+			}
+	
+			ctx.fireEndParseEvent("tiff");
 		}
-
-		ctx.fireEndParseEvent("tiff");
-		ftk.close();
+		finally {
+			AdapterUtils.close(ftk);
+		}
 
 	}
 

@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import nz.govt.natlib.adapter.AdapterUtils;
 import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.adapter.word.LanguageMap;
 import nz.govt.natlib.adapter.word.OLE.OLEConstants;
@@ -81,15 +82,17 @@ public class DocAdapter extends DataAdapter {
 		writeFileInfo(file, ctx);
 		ctx.fireParseEvent("Version", "Works");
 		POIFSFileSystem fs = null;
+		FileInputStream fin = null;
 		try {
-			FileInputStream fin = new FileInputStream(file);
+			fin = new FileInputStream(file);
 			fs = new POIFSFileSystem(fin);
 			DirectoryEntry root = fs.getRoot();
 			readDirectory(fs, root, ctx);
-			fin.close();
+			
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		} finally {
+			AdapterUtils.close(fin);
 			fs = null;
 		}
 		ctx.fireEndParseEvent("MSWorks");

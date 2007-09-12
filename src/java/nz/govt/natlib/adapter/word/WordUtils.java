@@ -18,6 +18,7 @@ package nz.govt.natlib.adapter.word;
 
 import java.io.File;
 
+import nz.govt.natlib.adapter.AdapterUtils;
 import nz.govt.natlib.fx.CompoundElement;
 import nz.govt.natlib.fx.DataSource;
 import nz.govt.natlib.fx.Element;
@@ -51,16 +52,22 @@ public class WordUtils {
 	}
 
 	public static boolean isWord2(File file) throws java.io.IOException {
-		DataSource ftk = new FileDataSource(file);
-		ftk.setPosition(Offset_To_NFib);
-		int iNFib = (int) FXUtil.getNumericalValue(ftk,
-				IntegerElement.SHORT_SIZE, false);
-		// System.out.println("iNFib " + Integer.toHexString(iNFib));
-		// NFib >= 101 => Word6 or greater
-		if (iNFib < 0x101) {
-			return true;
+		DataSource ftk = null;
+		try {
+			ftk = new FileDataSource(file);
+			ftk.setPosition(Offset_To_NFib);
+			int iNFib = (int) FXUtil.getNumericalValue(ftk,
+					IntegerElement.SHORT_SIZE, false);
+			// System.out.println("iNFib " + Integer.toHexString(iNFib));
+			// NFib >= 101 => Word6 or greater
+			if (iNFib < 0x101) {
+				return true;
+			}
+			return false;
 		}
-		return false;
+		finally {
+			AdapterUtils.close(ftk);
+		}
 	}
 
 	public static boolean isOLEWord(File file) throws java.io.IOException {

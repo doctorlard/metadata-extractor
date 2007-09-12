@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
+import nz.govt.natlib.adapter.AdapterUtils;
 import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.adapter.word.OLE.OLEConstants;
 import nz.govt.natlib.fx.DataSource;
@@ -112,6 +113,7 @@ public class ExcelAdapter extends DataAdapter {
 		// Fire a version event.
 		ctx.fireParseEvent("Version", "MSExcel");
 		POIFSFileSystem fs = null;
+		FileInputStream fin = null;
 		try {
             // Initialise the POI library.
 			POIFSReader r = new POIFSReader();
@@ -122,13 +124,12 @@ public class ExcelAdapter extends DataAdapter {
 			r.registerListener(new DocumentSummaryReader(),	"\005DocumentSummaryInformation");
 
 			// Read the file.
-			FileInputStream fin = new FileInputStream(file);
+			fin = new FileInputStream(file);
 			r.read(fin);
-			fin.close();
-
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		} finally {
+			AdapterUtils.close(fin);
 			fs = null;
 		}
 		

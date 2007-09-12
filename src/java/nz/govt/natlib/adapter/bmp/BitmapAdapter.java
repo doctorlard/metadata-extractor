@@ -19,6 +19,7 @@ package nz.govt.natlib.adapter.bmp;
 import java.io.File;
 import java.io.IOException;
 
+import nz.govt.natlib.adapter.AdapterUtils;
 import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.fx.CompoundElement;
 import nz.govt.natlib.fx.DataSource;
@@ -147,12 +148,13 @@ public class BitmapAdapter extends DataAdapter {
 
 		// Start by assuming that this is not a bitmap.		
 		boolean bmp = false;
+		DataSource ftk = null;
 		
 		try {
 			// Start to read the bitmap, and make sure that the first
 			// two bytes are "BM", which is the standard "magic bytes" for
 			// a bitmap file.
-			DataSource ftk = new FileDataSource(file);
+			ftk = new FileDataSource(file);
 			String header = FXUtil.getFixedStringValue(ftk, 2);
 			bmp = header.equalsIgnoreCase("bm");
 		} catch (Exception ex) {
@@ -160,6 +162,9 @@ public class BitmapAdapter extends DataAdapter {
 			// Perhaps the file doesn't have two bytes. Whatever the
 			// problem, this can't be a bitmap file.
 			bmp = false;
+		}
+		finally {
+			AdapterUtils.close(ftk);
 		}
 
 		// Log a message if this isn't a real bitmap file.

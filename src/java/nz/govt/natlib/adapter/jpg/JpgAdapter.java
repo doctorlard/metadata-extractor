@@ -19,6 +19,7 @@ package nz.govt.natlib.adapter.jpg;
 import java.io.File;
 import java.io.IOException;
 
+import nz.govt.natlib.adapter.AdapterUtils;
 import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.adapter.exif.EXIFElement;
 import nz.govt.natlib.fx.CompoundElement;
@@ -92,9 +93,10 @@ public class JpgAdapter extends DataAdapter {
 
 	public boolean acceptsFile(File file) {
 		boolean jpg = false;
+		DataSource ftk = null;
 		try {
 			// Read the header and see if this appears to be a JPG.
-			DataSource ftk = new FileDataSource(file);
+			ftk = new FileDataSource(file);
 			// Header and default information
 			JpgMarker marker = null;
 			marker = readMarker(ftk);
@@ -108,6 +110,9 @@ public class JpgAdapter extends DataAdapter {
 		} catch (IOException ex) {
 			LogManager.getInstance().logMessage(LogMessage.WORTHLESS_CHATTER,
 					"IO Exception determining JPG file type");
+		}
+		finally {
+			AdapterUtils.close(ftk);
 		}
 		return jpg;
 	}

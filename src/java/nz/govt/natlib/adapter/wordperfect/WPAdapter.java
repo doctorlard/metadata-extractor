@@ -19,6 +19,7 @@ package nz.govt.natlib.adapter.wordperfect;
 import java.io.File;
 import java.io.IOException;
 
+import nz.govt.natlib.adapter.AdapterUtils;
 import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.fx.BooleanElement;
 import nz.govt.natlib.fx.ByteChomperElement;
@@ -231,17 +232,21 @@ public class WPAdapter extends DataAdapter {
 
 	public boolean acceptsFile(File file) {
 		boolean wp = false;
+		DataSource ftk = null;
 		try {
-			DataSource ftk = new FileDataSource(file);
+			ftk = new FileDataSource(file);
 			// Header and default information
 			String head = FXUtil.getFixedStringValue(ftk, 4);
 			if ((head.equals("ÿWPC"))) {
 				wp = true;
 			}
-			ftk.close();
+			
 		} catch (IOException ex) {
 			LogManager.getInstance().logMessage(LogMessage.WORTHLESS_CHATTER,
 					"IO Exception determining WordPerfect file type");
+		}
+		finally {
+			AdapterUtils.close(ftk);
 		}
 		return wp;
 	}
@@ -343,7 +348,7 @@ public class WPAdapter extends DataAdapter {
 				}
 			}
 		} finally {
-			ftk.close();
+			AdapterUtils.close(ftk);
 		}
 		ctx.fireEndParseEvent("wordperfect");
 	}

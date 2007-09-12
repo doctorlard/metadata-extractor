@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
+import nz.govt.natlib.adapter.AdapterUtils;
 import nz.govt.natlib.adapter.word.FIB;
 import nz.govt.natlib.adapter.word.LanguageMap;
 import nz.govt.natlib.adapter.word.WordUtils;
@@ -67,8 +68,9 @@ public class WordOLEAdapter {
 	public boolean acceptsFile(File file) {
 		String name = file.getName().toLowerCase();
 		if (WordUtils.isDocFile(file) == true) {
+			DataSource ftk = null; 
 			try {
-				DataSource ftk = new FileDataSource(file);
+				ftk = new FileDataSource(file);
 				long signature = FXUtil.getNumericalValue(ftk,
 						IntegerElement.LONG_SIZE, false);
 				if (signature == OLE_TYPE_SIGNATURE) {
@@ -79,6 +81,9 @@ public class WordOLEAdapter {
 				throw new RuntimeException("WordOLEAdpator:acceptsFile: "
 						+ ex.getMessage());
 			}
+			finally {
+				AdapterUtils.close(ftk);
+			}
 		}
 
 		return false;
@@ -86,24 +91,21 @@ public class WordOLEAdapter {
 	}
 
 	public void process(File file, ParserContext ctx) throws IOException {
-		POIFSFileSystem fs = null;
+		FileInputStream fin = null;
 		try {
 			POIFSReader r = new POIFSReader();
 			r.registerListener(new MainStreamReader(ctx), "WordDocument");
-			r
-					.registerListener(new SummaryReader(ctx),
-							"\005SummaryInformation");
-			r.registerListener(new DocumentSummaryReader(),
-					"\005DocumentSummaryInformation");
+			r.registerListener(new SummaryReader(ctx),	"\005SummaryInformation");
+			r.registerListener(new DocumentSummaryReader(),	"\005DocumentSummaryInformation");
 			r.registerListener(new TableStreamReader(ctx), "1Table");
-			FileInputStream fin = new FileInputStream(file);
+			fin = new FileInputStream(file);
 			r.read(fin);
-			fin.close();
-
-		} catch (Exception ex) {
+		} 
+		catch (Exception ex) {
 			throw new RuntimeException(ex);
-		} finally {
-			fs = null;
+		} 
+		finally {
+			AdapterUtils.close(fin);
 		}
 	}
 
