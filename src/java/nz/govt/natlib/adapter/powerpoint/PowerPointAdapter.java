@@ -72,7 +72,7 @@ public class PowerPointAdapter extends DataAdapter {
 	}
 
 	public String getInputType() {
-		return "application/powerpoint";
+		return "application/vnd.ms-powerpoint";
 	}
 
 	public String getName() {

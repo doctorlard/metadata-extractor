@@ -66,7 +66,7 @@ public class DocAdapter extends DataAdapter {
 	}
 
 	public String getInputType() {
-		return "application/msworks";
+		return "application/vnd.ms-works";
 	}
 
 	public String getName() {

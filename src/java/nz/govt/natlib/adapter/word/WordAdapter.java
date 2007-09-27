@@ -96,7 +96,7 @@ public class WordAdapter extends DataAdapter {
 	}
 
 	public String getInputType() {
-		return "application/msword";
+		return "application/ms-word";
 	}
 
 }

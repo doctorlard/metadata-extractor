@@ -86,7 +86,7 @@ public class ExcelAdapter extends DataAdapter {
 	}
 
 	public String getInputType() {
-		return "application/excel";
+		return "application/vnd.ms-excel";
 	}
 
 	public String getName() {

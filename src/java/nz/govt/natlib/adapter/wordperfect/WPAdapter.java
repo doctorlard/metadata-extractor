@@ -256,7 +256,7 @@ public class WPAdapter extends DataAdapter {
 	}
 
 	public String getInputType() {
-		return "application/wordperfect";
+		return "application/vnd.wordperfect";
 	}
 
 	public String getName() {
