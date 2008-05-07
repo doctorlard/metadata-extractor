@@ -144,7 +144,7 @@ public class MP3Adapter extends DataAdapter {
 		writeFileInfo(file, ctx);
 		try {
 			boolean headFound = false;
-
+			int sizeOfID3Metadata = 0;
 			// read the ID3v2.x tag...
 			ftk.setPosition(0);
 			String id3 = FXUtil.getFixedStringValue(ftk, 3);
@@ -189,7 +189,13 @@ public class MP3Adapter extends DataAdapter {
 					byte[] fS = ftk.getData(4);
 					byte[] frameFlags = ftk.getData(2);
 					int frameSize = (int) FXUtil.getNumericalValue(fS, true);
-					frameSize = getSyncsafeInt(frameSize);
+					
+					/*
+					 * The Sync Safe Int logic doesn't seem to work for an embedded
+					 * picture (frame with "APIC" frame type). 
+					 */
+					if ("APIC".equalsIgnoreCase(frameType) == false)
+						frameSize = getSyncsafeInt(frameSize);
 					String data = FXUtil.getFixedStringValue(ftk, frameSize);
 					ID3v2Tag v2tag = MP3Util.getTag(frameType, data);
 					if (v2tag != null) {
@@ -206,6 +212,8 @@ public class MP3Adapter extends DataAdapter {
 				}
 
 				ctx.fireEndParseEvent("header");
+				sizeOfID3Metadata =  size;
+				//System.out.println("Total size of ID3 Frame: " + sizeOfID3Metadata);
 			}
 
 			// read the ID3v1.x tag...
@@ -233,7 +241,7 @@ public class MP3Adapter extends DataAdapter {
 			// index point
 			// MP3's can be cut in half and still work, like worms!
 			boolean seek = true;
-			int seekTo = 0;
+			int seekTo = sizeOfID3Metadata; // End of ID3 metadata and start of Mp3 header
 			byte previous = 0x00;
 			byte current = 0x00;
 			while (seekTo < file.length() && seek) {
@@ -314,6 +322,7 @@ public class MP3Adapter extends DataAdapter {
 			ctx.fireEndParseEvent("MPEG");
 
 		} catch (Exception ex) {
+			ex.printStackTrace(System.err);
 			throw new RuntimeException(ex);
 		} finally {
 			ftk.close();
