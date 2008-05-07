@@ -38,8 +38,7 @@ public abstract class MP3Util {
 
 		if (type.equalsIgnoreCase("TALB")) {
 			result.setName("album");
-		}
-		if (type.equalsIgnoreCase("COMM")) {
+		} else if (type.equalsIgnoreCase("COMM")) {
 			result.setName("comment");
 			byte enc = (byte) value.charAt(0);
 			int valPos = 1;
