@@ -44,13 +44,41 @@ public class XMLParserListener implements ParserListener {
 		this.out = out;
 	}
 
+	/**
+	 * Replaces the non-printable or XML reserved characters with readable characters.
+	 * This will replace any non-printable chars including newline and carriage return.
+	 *  
+	 * @param in input string
+	 * @return The replaced string
+	 */
 	protected String replace(String in) {
+		return replace(in, false);
+	}
+	
+	/**
+	 * Replaces the non-printable or XML reserved characters with readable characters. 
+	 * However, based on the flag flagKeepNewLineUntouched, the newline characters 
+	 * will be or will not be replaced.
+	 *  
+	 * @param in input string
+	 * @param flagKeepNewLineUntouched - Pass true if you want to keep the 
+	 * new-line / carriage-return unchanged. Or, false if you want to replace them.
+	 * @return The replaced string
+	 */
+	protected String replace(String in, boolean flagKeepNewLineUntouched) {
 		StringBuffer buf = new StringBuffer();
 		for (int k = 0; k < in.length(); k++) {
 			String c = in.substring(k, k + 1);
 
 			if ((c.charAt(0) < 32) || (c.charAt(0) > 126)) {
-				c = "";
+				/*
+				 * Examine the flagKeepNewLineUntouched flag to see if 
+				 * newline / carriage-return chars need to be replaced.
+				 * Replace only if the the flag is false or the chars are
+				 * not '\n' and '\r'
+				 */
+				if (! flagKeepNewLineUntouched || (c.charAt(0) != '\r' && c.charAt(0) != '\n'))
+					c = "";
 			} else {
 				for (int i = 0; i < replaceText.length; i++) {
 					if (replaceText[i][0].charAt(0) == c.charAt(0)) {
@@ -79,7 +107,7 @@ public class XMLParserListener implements ParserListener {
 
 	public void writeTagContents(Object value) throws IOException {
 		// replace any dodgy tag text
-		write(getIndent(indent) + replace(value.toString()) + newLine);
+		write(getIndent(indent) + replace(value.toString(), true) + newLine);
 	}
 
 	protected void writeXMLOpen() throws IOException {
