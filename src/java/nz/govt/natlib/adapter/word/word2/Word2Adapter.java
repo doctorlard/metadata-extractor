@@ -19,6 +19,7 @@ package nz.govt.natlib.adapter.word.word2;
 import java.io.File;
 import java.io.IOException;
 
+import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.adapter.word.FIB;
 import nz.govt.natlib.adapter.word.WordUtils;
 import nz.govt.natlib.fx.DataSource;
@@ -51,6 +52,10 @@ public class Word2Adapter {
 	// information
 	private static final int Offset_To_sttbfAssoc = 0x118;
 
+	// Header string for word 2.0 document in Hex format. 'xx' stands for an integer of any value.
+	// This is as per the PRONOM registry at http://www.nationalarchives.gov.uk/PRONOM
+	private static final String WORD_2_0_HEADER = "DB A5 xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx xx 00 00 00 00";
+
 	// File position offset to the Document Properties
 	private static final int Offset_To_DOP = 0x112;
 
@@ -62,17 +67,14 @@ public class Word2Adapter {
 		if (file.length() == 0) {
 			return false;
 		}
-
-		String name = file.getName().toLowerCase();
-		if (WordUtils.isDocFile(file) == true) {
 			try {
-				return WordUtils.isWord2(file);
+				// Check the first 2 & last 4 bytes using checkFileHeader() 
+				// and the 3rd byte using WordUtils.isWord2()
+				return DataAdapter.checkFileHeader(file, WORD_2_0_HEADER) && WordUtils.isWord2(file);
 			} catch (Exception ex) {
 				throw new RuntimeException("Word2Adpator:acceptsFile: "
 						+ ex.getMessage());
 			}
-		}
-		return false;
 	}
 
 	public void process(File file, ParserContext ctx) throws IOException {
