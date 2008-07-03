@@ -65,7 +65,9 @@ public class WordOLEAdapter {
 
 	private static final LanguageMap langMap = OLELanguageMap.getLanguageMap();
 
-	public boolean acceptsFile(File file) {
+	public boolean acceptsFile(File file, boolean ignoreFileExtension) {
+		String name = file.getName().toLowerCase();
+		if (ignoreFileExtension || (WordUtils.isDocFile(file) == true)) {
 			DataSource ftk = null; 
 			try {
 				ftk = new FileDataSource(file);
@@ -82,6 +84,8 @@ public class WordOLEAdapter {
 			finally {
 				AdapterUtils.close(ftk);
 			}
+		}
+
 		return false;
 
 	}

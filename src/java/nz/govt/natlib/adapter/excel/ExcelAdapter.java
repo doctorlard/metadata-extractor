@@ -71,7 +71,7 @@ public class ExcelAdapter extends DataAdapter {
 		// If it is an .xls file, then we are probably an Excel file,
 		// but check that it also complies with the OLE header requirement
 		// as well. This could be extended with additional checks.
-		if (name.endsWith(".xls")) {
+		if (ignoreFileExtension || name.endsWith(".xls")) {
 			return checkFileHeader(file, OLEConstants.OLE_HEADER);
 		}
 		return false;

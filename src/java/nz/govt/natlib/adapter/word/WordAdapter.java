@@ -47,7 +47,7 @@ public class WordAdapter extends DataAdapter {
 	 * @see nz.govt.natlib.adapter.DataAdapter#acceptsFile(java.io.File)
 	 */
 	public boolean acceptsFile(File file) {
-		return oleAdapter.acceptsFile(file) || word2Adapter.acceptsFile(file);
+		return oleAdapter.acceptsFile(file, ignoreFileExtension) || word2Adapter.acceptsFile(file, ignoreFileExtension);
 	}
 
 	public String getName() {
@@ -67,8 +67,8 @@ public class WordAdapter extends DataAdapter {
 	 *      nz.govt.natlib.fx.ParserContext)
 	 */
 	public void adapt(File file, ParserContext ctx) throws IOException {
-		boolean word2 = word2Adapter.acceptsFile(file);
-		boolean wordOLE = oleAdapter.acceptsFile(file);
+		boolean word2 = word2Adapter.acceptsFile(file, ignoreFileExtension);
+		boolean wordOLE = oleAdapter.acceptsFile(file, ignoreFileExtension);
 		if (word2 || wordOLE) {
 			ctx.fireStartParseEvent("Word");
 			writeFileInfo(file, ctx);

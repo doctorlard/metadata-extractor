@@ -40,6 +40,29 @@ import nz.govt.natlib.meta.log.LogMessage;
 public abstract class DataAdapter {
 
 	/**
+	 * A flag to indicate that the <code>acceptsFile()</code> needs to ignore the 
+	 * file extension when deciding whether a given adapter can accept the file.
+	 * 
+	 * <p><b>Note:</b> By default, this flag is set to <code>false</code> to make 
+	 * the <code>acceptsFile()</code> backward-compatible. To make use of this feature, 
+	 * one has to call the mutator method 
+	 * <code>public void ignoreFileExtension(boolean flag)</code> explicitly with a value
+	 * <code>true</code>.
+	 * 
+	 */
+	protected boolean ignoreFileExtension = false;
+	
+	/**
+	 * Sets a flag to indicate that the <code>acceptsFile()</code> needs to ignore the 
+	 * file extension when deciding whether a given adapter can accept the file.
+	 * 
+	 * @param flag New value of the <code>ignoreFileExtension</code> to set.
+	 */
+	public void ignoreFileExtension(boolean flag) {
+		ignoreFileExtension = flag;
+	}
+	
+	/**
 	 * This method tests whether this is adapter wants to attempt to extract
 	 * metadata from this file. The standard adapters test for a file extension
 	 * match, and then make additional tests to increase the confidence of

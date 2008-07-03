@@ -107,7 +107,7 @@ public class MP3Adapter extends DataAdapter {
 
 	public boolean acceptsFile(File file) {
 		String name = file.getName().toLowerCase();
-		if (name.endsWith(".mp3")) {
+		if (ignoreFileExtension || name.endsWith(".mp3")) {
 			return true;
 		}
 

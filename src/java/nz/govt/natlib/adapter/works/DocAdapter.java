@@ -49,7 +49,7 @@ public class DocAdapter extends DataAdapter {
 
 	public boolean acceptsFile(File file) {
 		String name = file.getName().toLowerCase();
-		if (name.endsWith(".wps") /* || name.endsWith(".wks") */
+		if (ignoreFileExtension || name.endsWith(".wps") /* || name.endsWith(".wks") */
 				|| name.endsWith(".wdb")) {
 			return checkFileHeader(file, OLEConstants.OLE_HEADER);
 		}

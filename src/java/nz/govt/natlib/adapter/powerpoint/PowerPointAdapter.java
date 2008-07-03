@@ -57,7 +57,7 @@ public class PowerPointAdapter extends DataAdapter {
 	public boolean acceptsFile(File file) {
 		String name = file.getName().toLowerCase();
 
-		if (name.endsWith(".ppt")) {
+		if (ignoreFileExtension || name.endsWith(".ppt")) {
 			return checkFileHeader(file, OLEConstants.OLE_HEADER);
 		}
 		return false;
