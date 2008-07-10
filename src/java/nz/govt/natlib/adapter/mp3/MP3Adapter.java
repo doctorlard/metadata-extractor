@@ -18,7 +18,9 @@ package nz.govt.natlib.adapter.mp3;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.fx.BitFieldUtil;
@@ -105,6 +107,27 @@ public class MP3Adapter extends DataAdapter {
 					new IntegerElement(IntegerElement.BYTE_SIZE, false,
 							IntegerElement.DECIMAL_FORMAT), genre, });
 
+	/*
+	 * The Sync Safe Int logic doesn't seem to work for certain frame types,
+	 * such as an embedded picture (frame with "APIC" frame type) or 
+	 * the Music CD info ("MCDI" frame type). When we do a sync safe int
+	 * conversion on the frame size for these frames, the frame size becomes 
+	 * negative and a NegativeArraySizeException is thrown from the application.
+	 * 
+	 * The list below defines the frame types that shouldn't do a SyncsafeInt 
+	 * conversion on the frame size.
+	 * 
+	 * Note: If certain MP3 files fail the metadata extraction giving a
+	 * NegativeArraySizeException or a NullPointerException, it may be due the
+	 * fact that certain frame types in the MP3 file don't require/support the
+	 * sync safe int conversion of frame size. If so, add those frame types 
+	 * to the list below.
+	 */
+	private final List frameTypesToIgnoreSyncSafeInt = Arrays.asList(new String[]{
+		"APIC",
+		"MCDI",
+	});
+	
 	public boolean acceptsFile(File file) {
 		String name = file.getName().toLowerCase();
 		if (ignoreFileExtension || name.endsWith(".mp3")) {
@@ -191,10 +214,11 @@ public class MP3Adapter extends DataAdapter {
 					int frameSize = (int) FXUtil.getNumericalValue(fS, true);
 					
 					/*
-					 * The Sync Safe Int logic doesn't seem to work for an embedded
-					 * picture (frame with "APIC" frame type). 
+					 * Check whether a sync-safe int conversion to be done on the
+					 * frame size. Do the conversion only if the frame type is not
+					 * defined in the frameTypesToIgnoreSyncSafeInt list.
 					 */
-					if ("APIC".equalsIgnoreCase(frameType) == false)
+					if (frameTypesToIgnoreSyncSafeInt.contains(frameType) == false)
 						frameSize = getSyncsafeInt(frameSize);
 					String data = FXUtil.getFixedStringValue(ftk, frameSize);
 					ID3v2Tag v2tag = MP3Util.getTag(frameType, data);
