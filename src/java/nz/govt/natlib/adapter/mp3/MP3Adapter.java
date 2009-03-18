@@ -209,6 +209,24 @@ public class MP3Adapter extends DataAdapter {
 				int read = 0;
 				while (read < size) {
 					String frameType = FXUtil.getFixedStringValue(ftk, 4);
+
+					/*
+					 * Raghu Pushpakath: As per ID3 spec, It is permitted to
+					 * include padding after all the final frame (at the end of
+					 * the ID3 tag), making the size of all the frames together
+					 * smaller than the size given in the head of the tag.
+					 * 
+					 * The following code is added in order to skip these
+					 * paddings, thus preventing the
+					 * java.lang.NegativeArraySizeException for certain MP3
+					 * files.
+					 */
+					if (frameType == null || frameType.trim().length() <= 0) {
+						// Skip 10 bytes (4 for the frame name, 4 for frame size and 2 for frame flags
+						read += 10;
+						// Continue with reading next set of bytes
+						continue;
+					}
 					byte[] fS = ftk.getData(4);
 					byte[] frameFlags = ftk.getData(2);
 					int frameSize = (int) FXUtil.getNumericalValue(fS, true);
