@@ -24,7 +24,7 @@ echo script.
 GOTO END
 
 :HOMEFOUND
-java -Xmx128m -Dmetahome=%METAHOME% -Djava.system.class.loader=nz.govt.natlib.meta.config.Loader -cp %METAHOME%\lib\metadata.jar;%METAHOME%\lib\xalan.jar;%METAHOME%\lib\xercesImpl.jar;%METAHOME%\lib\xml-apis.jar;%METAHOME%\lib\serializer.jar;%METAHOME%\lib\poi-2.5.1-final-20040804.jar;%METAHOME%\lib\bfj220.jar;%METAHOME%\lib\PDFBox-0.7.3.jar;%METAHOME%\lib\bcprov-jdk14-132.jar;%METAHOME%\lib\bcmail-jdk14-132.jar;%METAHOME% nz.govt.natlib.meta.ui.CmdLine %*
+java -Xmx128m -Dmetahome=%METAHOME% -Djava.system.class.loader=nz.govt.natlib.meta.config.Loader -cp %METAHOME%\lib\metadata.jar;%METAHOME%\lib\xalan.jar;%METAHOME%\lib\xercesImpl.jar;%METAHOME%\lib\xml-apis.jar;%METAHOME%\lib\serializer.jar;%METAHOME%\lib\poi-2.5.1-final-20040804.jar;%METAHOME%\lib\bfj220.jar;%METAHOME%\lib\PDFBox-0.7.3.jar;%METAHOME%\lib\bcprov-jdk14-132.jar;%METAHOME%\lib\bcmail-jdk14-132.jar;%METAHOME%\lib\jid3lib-0.5.4.jar;%METAHOME% nz.govt.natlib.meta.ui.CmdLine %*
 goto END
 
 :resolve

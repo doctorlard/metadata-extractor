@@ -33,6 +33,7 @@
         <adapter class="nz.govt.natlib.adapter.gif.GIFAdapter" jar="gif_adapter_1_0.jar"  output-dtd="gif.dtd"/>
         <adapter class="nz.govt.natlib.adapter.html.HTMLAdapter" jar="html_adapater_1_0.jar"  output-dtd="html.dtd"/>
         <adapter class="nz.govt.natlib.adapter.jpg.JpgAdapter" jar="jpg_adapter_1_1.jar"  output-dtd="jpg.dtd"/>
+        <adapter class="nz.govt.natlib.adapter.jID3LibMp3.ID3TagLibMP3Adapter" jar="jID3LibMp3_adapter_1_0.jar" output-dtd="mp3.dtd" />
         <adapter class="nz.govt.natlib.adapter.mp3.MP3Adapter" jar="mp3_adapter_1_0.jar"  output-dtd="mp3.dtd"/>
         <adapter class="nz.govt.natlib.adapter.openoffice.OpenOfficeAdapter" jar="openoffice_adapter_1_0.jar"  output-dtd="openoffice.dtd"/>
         <adapter class="nz.govt.natlib.adapter.pdfbox.PDFBoxAdapter" jar="pdfbox_adapter_1_0.jar"  output-dtd="pdf.dtd"/>
@@ -158,6 +159,7 @@
             <adapter class="nz.govt.natlib.adapter.gif.GIFAdapter"/>
             <adapter class="nz.govt.natlib.adapter.html.HTMLAdapter"/>
             <adapter class="nz.govt.natlib.adapter.jpg.JpgAdapter"/>
+            <adapter class="nz.govt.natlib.adapter.jID3LibMp3.ID3TagLibMP3Adapter"/>
             <adapter class="nz.govt.natlib.adapter.mp3.MP3Adapter"/>
             <adapter class="nz.govt.natlib.adapter.openoffice.OpenOfficeAdapter"/>
             <adapter class="nz.govt.natlib.adapter.pdfbox.PDFBoxAdapter"/>
