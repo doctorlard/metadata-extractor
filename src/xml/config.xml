@@ -28,6 +28,7 @@
 	-->
 	<adapters>
         <adapter class="nz.govt.natlib.adapter.any.DefaultAdapter" jar="lt;SYSTEMgt;"  output-dtd="default.dtd"/>
+        <adapter class="nz.govt.natlib.adapter.arc.ArcAdapter" jar="arc_adapter_1_0.jar"  output-dtd="arc.dtd"/>
         <adapter class="nz.govt.natlib.adapter.bmp.BitmapAdapter" jar="bmp_adapter_1_0.jar"  output-dtd="bmp.dtd"/>
         <adapter class="nz.govt.natlib.adapter.excel.ExcelAdapter" jar="excel_adapter_1_0.jar"  output-dtd="excel.dtd"/>
         <adapter class="nz.govt.natlib.adapter.gif.GIFAdapter" jar="gif_adapter_1_0.jar"  output-dtd="gif.dtd"/>
@@ -54,6 +55,11 @@
             <input-dtd doc-name="default.dtd" />
             <output-dtd doc-name="nlnz_presmet.xsd" />
             <xslt doc-name="default_to_nlnz_presmet.xslt" />
+        </map>
+        <map>
+            <input-dtd doc-name="arc.dtd" />
+            <output-dtd doc-name="nlnz_presmet.xsd" />
+            <xslt doc-name="arc_to_nlnz_presmet.xslt" />
         </map>
         <map>
             <input-dtd doc-name="bmp.dtd" />
@@ -154,6 +160,7 @@
 			<input-files dir="METADATA_BASE" />
 			<log-dir dir="METADATA_BASE/logs" />
             <adapter class="nz.govt.natlib.adapter.any.DefaultAdapter"/>
+            <adapter class="nz.govt.natlib.adapter.arc.ArcAdapter"/>
             <adapter class="nz.govt.natlib.adapter.bmp.BitmapAdapter"/>
             <adapter class="nz.govt.natlib.adapter.excel.ExcelAdapter"/>
             <adapter class="nz.govt.natlib.adapter.gif.GIFAdapter"/>

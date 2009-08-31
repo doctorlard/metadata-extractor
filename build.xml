@@ -51,6 +51,13 @@
 	<target name="adapters" depends="compile">
 		<mkdir dir="${dist}/adapters/" />
 
+		<!-- prepare the files for the ARC file adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="arc" />
+			<param name="prm-adapter-name" value="arc" />
+			<param name="prm-adapter-dir" value="arc_adapter_1_0" />
+		</antcall>
+
 		<!-- prepare the files for the bmp adapter -->
 		<antcall target="adapter_build">
 			<param name="prm-adapter-type" value="bmp" />

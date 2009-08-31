@@ -11,5 +11,9 @@
 	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="lib/PDFBox-0.7.3.jar"/>
 	<classpathentry kind="lib" path="lib/jid3lib-0.5.4.jar"/>
+	<classpathentry kind="lib" path="lib/heritrix-1.14.1.jar"/>
+	<classpathentry kind="lib" path="lib/fastutil-5.0.3-heritrix-subset-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-httpclient-3.1.jar"/>
 	<classpathentry kind="output" path="target/metadata"/>
 </classpath>
