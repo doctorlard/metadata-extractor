@@ -103,9 +103,9 @@
           </xsl:for-each>
 
           <ContentSummary>
-            <xsl:for-each select="ARC/ARCINFO/CONTENTSUMMARY/MIMEREPORT">
+            <xsl:for-each select="ARC/ARCINFO/CONTENTSUMMARY">
               <MimeReport>
-                <xsl:value-of select="MIMETYPE"/> : <xsl:value-of select="COUNT"/>
+                <xsl:value-of select="MIMEREPORT"/>
               </MimeReport>
             </xsl:for-each>
           </ContentSummary>

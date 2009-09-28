@@ -165,13 +165,17 @@ public class ArcAdapter extends DataAdapter {
 				Set keys = new TreeSet(String.CASE_INSENSITIVE_ORDER);
 				keys.addAll(mimeMap.keySet()); 
 				iter = keys.iterator();
+				StringBuffer mimeSummary = new StringBuffer();
+				boolean first = true;
 				while (iter != null && iter.hasNext()) {
 					String mimetype = (String)iter.next();
-					ctx.fireStartParseEvent("MIMEREPORT");
-					ctx.fireParseEvent("MIMETYPE", mimetype);
-					ctx.fireParseEvent("COUNT", mimeMap.get(mimetype));
-					ctx.fireEndParseEvent("MIMEREPORT");
+					if (first == false) {
+						mimeSummary.append(", ");
+					}
+					first = false;
+					mimeSummary.append(mimetype).append(":").append(mimeMap.get(mimetype));
 				}
+				ctx.fireParseEvent("MIMEREPORT", mimeSummary.toString());
 			}
 			ctx.fireEndParseEvent("CONTENTSUMMARY");
 			ctx.fireEndParseEvent("ARCINFO");
