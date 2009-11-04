@@ -72,6 +72,13 @@
 			<param name="prm-adapter-dir" value="excel_adapter_1_0" />
 		</antcall>
 
+		<!-- prepare the files for the excel adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="flac" />
+			<param name="prm-adapter-name" value="flac" />
+			<param name="prm-adapter-dir" value="flac_adapter_1_0" />
+		</antcall>
+
 		<!-- prepare the files for the gif adapter -->
 		<antcall target="adapter_build">
 			<param name="prm-adapter-type" value="gif" />
