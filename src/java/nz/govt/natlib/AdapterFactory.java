@@ -24,6 +24,8 @@ import java.util.Iterator;
 import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.adapter.any.DefaultAdapter;
 import nz.govt.natlib.meta.config.Config;
+import nz.govt.natlib.meta.log.LogManager;
+import nz.govt.natlib.meta.log.LogMessage;
 
 /**
  * <p>
@@ -157,6 +159,7 @@ public class AdapterFactory {
 			if ((output == null || adapter.getOutputType().equals(output))
 					&& Config.getInstance().getCurrentProfile().hasAdapter(
 							adapter) && (adapter.acceptsFile(file))) {
+				LogManager.getInstance().logMessage(LogMessage.INFO, "Adapter " + adapter.getClass().getName() + " has been chosen to adapt " + file.getName());
 				return adapter;
 			}
 		}
@@ -165,6 +168,7 @@ public class AdapterFactory {
 						output))
 				&& Config.getInstance().getCurrentProfile().hasAdapter(
 						defaultAdapter) && (defaultAdapter.acceptsFile(file))) {
+			LogManager.getInstance().logMessage(LogMessage.INFO, "Default adapter " + defaultAdapter.getClass().getName() + " has been chosen to adapt " + file.getName());
 			return defaultAdapter;
 		}
 
