@@ -36,6 +36,9 @@ import nz.govt.natlib.adapter.DataAdapter;
 import nz.govt.natlib.fx.BitFieldUtil;
 import nz.govt.natlib.fx.ParserContext;
 
+import nz.govt.natlib.meta.log.LogManager;
+import nz.govt.natlib.meta.log.LogMessage;
+
 /**
  * Adapter for MP3 Audio Files using Java ID3 Tag Library at http://javamusictag.sourceforge.net.
  * 
@@ -185,15 +188,92 @@ public class ID3TagLibMP3Adapter extends DataAdapter {
 	}
 
 	private void fireParseEvents(AbstractMP3Tag tag, ParserContext ctx) {
-		String[][] elements = new String[][] {
-				new String[]{"title", 		tag.getSongTitle()},
-				new String[]{"artist", 		tag.getLeadArtist()},
-				new String[]{"album", 		tag.getAlbumTitle()},
-				new String[]{"year", 		tag.getYearReleased()},
-				new String[]{"comment", 	tag.getSongComment()},
-				new String[]{"track", 		tag.getTrackNumberOnAlbum()},
-				new String[]{"genre", 		MP3Util.genreNumberToName("" + tag.getSongGenre())}
-		};
+		String[][] elements = null;
+		String title = null;
+		try{
+			title = tag.getSongTitle();
+		}catch (Exception e) {
+			
+			// when an error "This tag does not contain that information" occurs from
+			//lyrics3 classes ignore and don't add that tag in the extracted XML.
+			// TODO: handle exception
+		}
+	
+		String artist = null;
+		try{
+			artist = tag.getLeadArtist();
+		}catch (Exception e) {
+			
+			// when an error "This tag does not contain that information" occurs from
+			//lyrics3 classes ignore and don't add that tag in the extracted XML.
+			//handle exception
+			LogManager.getInstance().logMessage(e);
+		}
+	
+		String album = null;
+		try{
+			album = tag.getAlbumTitle();
+		}catch (Exception e) {
+		
+			// when an error "This tag does not contain that information" occurs from
+			//lyrics3 classes ignore and don't add that tag in the extracted XML.
+			// handle exception
+			LogManager.getInstance().logMessage(e);
+		}
+		
+		String year = null;
+		try{
+			year = tag.getYearReleased();
+		}catch (Exception e) {
+		
+			// when an error "This tag does not contain that information" occurs from
+			//lyrics3 classes ignore and don't add that tag in the extracted XML.
+			// handle exception
+			LogManager.getInstance().logMessage(e);
+		}
+		
+		String comment = null;
+		try{
+			comment = tag.getSongComment();
+		}catch (Exception e) {
+			// when an error "This tag does not contain that information" occurs from
+			//lyrics3 classes ignore and don't add that tag in the extracted XML.
+			// handle exception
+			LogManager.getInstance().logMessage(e);
+		}
+		
+		String track = null;
+		try{
+			track = 	tag.getTrackNumberOnAlbum();
+		}catch (Exception e) {
+			// when an error "This tag does not contain that information" occurs from
+			//lyrics3 classes ignore and don't add that tag in the extracted XML.
+			// handle exception
+			LogManager.getInstance().logMessage(e);
+		}
+		
+		String genre = null;
+		try{
+			genre = 	MP3Util.genreNumberToName("" + tag.getSongGenre());
+		}catch (Exception e) {
+			// when an error "This tag does not contain that information" occurs from
+			//lyrics3 classes ignore and don't add that tag in the extracted XML.
+			//handle exception
+			LogManager.getInstance().logMessage(e);
+		}
+				
+		
+		elements = new String[][] {
+			new String[]{"title", 		title},
+			new String[]{"artist", 		artist},
+			new String[]{"album", 		album},
+			new String[]{"year", 		year},
+			new String[]{"comment", 	comment},
+			new String[]{"track", 		track},
+			new String[]{"genre", 		genre}
+	};
+	
+		
 		for (int i = 0; i < elements.length; i++) {
 			String[] element = elements[i];
 			ctx.fireStartParseEvent(element[0]);
