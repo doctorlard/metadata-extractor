@@ -41,6 +41,7 @@
         <adapter class="nz.govt.natlib.adapter.pdfbox.PDFBoxAdapter" jar="pdfbox_adapter_1_0.jar"  output-dtd="pdf.dtd"/>
         <adapter class="nz.govt.natlib.adapter.powerpoint.PowerPointAdapter" jar="powerpoint_adapter_1_0.jar"  output-dtd="powerpoint.dtd"/>
         <adapter class="nz.govt.natlib.adapter.tiff.TIFFAdapter" jar="tiff_adapter_1_0.jar"  output-dtd="tiff_6_0.dtd"/>
+        <adapter class="nz.govt.natlib.adapter.warc.WarcAdapter" jar="warc_adapter_1_0.jar"  output-dtd="warc.dtd"/>
         <adapter class="nz.govt.natlib.adapter.wav.WaveAdapter" jar="wave_adapter_1_0.jar"  output-dtd="wav.dtd"/>
         <adapter class="nz.govt.natlib.adapter.word.WordAdapter" jar="msword_adapter_2_0.jar"  output-dtd="word.dtd"/>
         <adapter class="nz.govt.natlib.adapter.wordperfect.WPAdapter" jar="wordperfect_adapter_1_0.jar"  output-dtd="wordperfect.dtd"/>
@@ -118,6 +119,11 @@
             <xslt doc-name="tiff_6_0_to_nlnz_presmet.xslt" />
         </map>
         <map>
+            <input-dtd doc-name="warc.dtd" />
+            <output-dtd doc-name="nlnz_presmet.xsd" />
+            <xslt doc-name="warc_to_nlnz_presmet.xslt" />
+        </map>
+        <map>
             <input-dtd doc-name="wav.dtd" />
             <output-dtd doc-name="nlnz_presmet.xsd" />
             <xslt doc-name="wav_to_nlnz_presmet.xslt" />
@@ -179,6 +185,7 @@
             <adapter class="nz.govt.natlib.adapter.pdfbox.PDFBoxAdapter"/>
             <adapter class="nz.govt.natlib.adapter.powerpoint.PowerPointAdapter"/>
             <adapter class="nz.govt.natlib.adapter.tiff.TIFFAdapter"/>
+            <adapter class="nz.govt.natlib.adapter.warc.WarcAdapter"/>
             <adapter class="nz.govt.natlib.adapter.wav.WaveAdapter"/>
             <adapter class="nz.govt.natlib.adapter.word.WordAdapter"/>
             <adapter class="nz.govt.natlib.adapter.wordperfect.WPAdapter"/>

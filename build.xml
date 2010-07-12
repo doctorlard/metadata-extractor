@@ -72,7 +72,7 @@
 			<param name="prm-adapter-dir" value="excel_adapter_1_0" />
 		</antcall>
 
-		<!-- prepare the files for the excel adapter -->
+		<!-- prepare the files for the flac adapter -->
 		<antcall target="adapter_build">
 			<param name="prm-adapter-type" value="flac" />
 			<param name="prm-adapter-name" value="flac" />
@@ -161,6 +161,13 @@
 			<param name="prm-adapter-type" value="tiff" />
 			<param name="prm-adapter-name" value="tiff_6_0" />
 			<param name="prm-adapter-dir" value="tiff_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the WARC file adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="warc" />
+			<param name="prm-adapter-name" value="warc" />
+			<param name="prm-adapter-dir" value="warc_adapter_1_0" />
 		</antcall>
 
 		<!-- prepare the files for the wave adapter -->
