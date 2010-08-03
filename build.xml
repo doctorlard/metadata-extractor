@@ -114,6 +114,13 @@
 			<param name="prm-adapter-dir" value="jID3LibMp3_adapter_1_0" />
 		</antcall>
 
+		<!-- prepare the files for the mp4 adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="mpeg4" />
+			<param name="prm-adapter-name" value="mpeg4" />
+			<param name="prm-adapter-dir" value="mpeg4_adapter_1_0" />
+		</antcall>
+		
 		<!-- prepare the files for the msword adapter -->
 		<antcall target="adapter_build">
 			<param name="prm-adapter-type" value="word" />
