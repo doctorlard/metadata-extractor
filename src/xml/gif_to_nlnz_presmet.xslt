@@ -87,9 +87,6 @@
             <Level>
               <xsl:value-of select="string('n/a')"/>
             </Level>
-            <Scheme>
-              <xsl:value-of select="string('n/a')"/>
-            </Scheme>
         </Compression>
       </Image>
     </File>
