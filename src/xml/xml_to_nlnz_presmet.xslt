@@ -48,7 +48,7 @@
       </xsl:for-each>
       <FileFormat>
         <Format>
-          XML
+   			<xsl:value-of select="string('XML')"/>
         </Format>
         <Version>
           <xsl:value-of select="XML/INFORMATION/VERSION"/>
@@ -59,7 +59,7 @@
           <xsl:value-of select="XML/INFORMATION/ENCODING"/>
         </CharacterSet>
         <MarkupLanguage>
-          XML
+          <xsl:value-of select="string('XML')"/>
         </MarkupLanguage>
       </Text>
     </File>
